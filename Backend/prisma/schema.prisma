@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  courses Course[]
+  goals Goal[]
+  calendar Calendar[]
+
+  @@map("users")
+}
+
+model Course{
+  id String @id @default(uuid())
+  name String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+
+  activities Activity[]
+  timers Timer[]
+
+@@map("courses")
+}
+
+model Goal{
+  id String @id @default(uuid())
+  name String
+  description String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("goals")
+}
+
+model Calendar{
+  id String @id @default(uuid())
+  title String
+  date String
+  type String
+  description String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("calendar")
+}
+
+model Activity{
+  id String @id @default(uuid())
+  title String
+  priority String
+  date String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  course Course @relation(fields: [course_id], references: [id])
+  course_id String
+
+  @@map("activities")
+}
+
+model Timer{
+  id String @id @default(uuid())
+  topic String
+  pages Int
+  questions Int
+  video Int
+  timer Int
+  start DateTime? @default(now())
+  end DateTime?
+
+  course Course @relation(fields: [course_id], references: [id])
+  course_id String
+
+  @@map("timers")
+}
