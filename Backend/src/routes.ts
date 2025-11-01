@@ -8,6 +8,9 @@ import { EditCourseController } from "./controller/course/EditCourseController";
 import { DeleteCourseController } from "./controller/course/DeleteCourseController";
 import { ListCourseController } from "./controller/course/ListCourseController";
 import { DetailCourseController } from "./controller/course/DetailCourseController";
+import { CreateActivityController } from "./controller/activity/CreateActivityController";
+import { DeleteActivityController } from "./controller/activity/DeleteActivityController";
+import { DetailActivityController } from "./controller/activity/DetailActivityController";
 
 const router = Router();
 
@@ -26,5 +29,10 @@ router.put("/courses", isAuthenticated, new EditCourseController().handle)
 router.delete("/courses", isAuthenticated, new DeleteCourseController().handle)
 router.get("/courses/all", isAuthenticated, new ListCourseController().handle)
 router.get("/course", isAuthenticated, new DetailCourseController().handle)
+
+//Activity
+router.post("/activities", isAuthenticated, new CreateActivityController().handle)
+router.delete("/activities", isAuthenticated, new DeleteActivityController().handle)
+router.get("/activities", isAuthenticated, new DetailActivityController().handle)
 
 export { router };

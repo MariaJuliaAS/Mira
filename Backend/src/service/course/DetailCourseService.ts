@@ -10,6 +10,9 @@ class DetailCourseService {
         const course = await prismaClient.course.findFirst({
             where: {
                 id: courseId
+            },
+            include: {
+                activities: true
             }
         })
 

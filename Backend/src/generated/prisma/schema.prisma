@@ -80,7 +80,7 @@ model Activity {
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  course    Course @relation(fields: [course_id], references: [id])
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id String
 
   @@map("activities")
@@ -96,7 +96,7 @@ model Timer {
   start     DateTime? @default(now())
   end       DateTime?
 
-  course    Course @relation(fields: [course_id], references: [id])
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id String
 
   @@map("timers")

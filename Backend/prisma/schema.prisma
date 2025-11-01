@@ -14,89 +14,89 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id @default(uuid())
-  name String
-  email String
-  password String
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String
+  password   String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  courses Course[]
-  goals Goal[]
+  courses  Course[]
+  goals    Goal[]
   calendar Calendar[]
 
   @@map("users")
 }
 
-model Course{
-  id String @id @default(uuid())
-  name String
+model Course {
+  id         String    @id @default(uuid())
+  name       String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  user User @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   activities Activity[]
-  timers Timer[]
+  timers     Timer[]
 
-@@map("courses")
+  @@map("courses")
 }
 
-model Goal{
-  id String @id @default(uuid())
-  name String
+model Goal {
+  id          String    @id @default(uuid())
+  name        String
   description String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @default(now())
 
-  user User @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   @@map("goals")
 }
 
-model Calendar{
-  id String @id @default(uuid())
-  title String
-  date String
-  type String
+model Calendar {
+  id          String    @id @default(uuid())
+  title       String
+  date        String
+  type        String
   description String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @default(now())
 
-  user User @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   @@map("calendar")
 }
 
-model Activity{
-  id String @id @default(uuid())
-  title String
-  priority String
-  date String
+model Activity {
+  id         String    @id @default(uuid())
+  title      String
+  priority   String
+  date       String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  course Course @relation(fields: [course_id], references: [id])
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id String
 
   @@map("activities")
 }
 
-model Timer{
-  id String @id @default(uuid())
-  topic String
-  pages Int
+model Timer {
+  id        String    @id @default(uuid())
+  topic     String
+  pages     Int
   questions Int
-  video Int
-  timer Int
-  start DateTime? @default(now())
-  end DateTime?
+  video     Int
+  timer     Int
+  start     DateTime? @default(now())
+  end       DateTime?
 
-  course Course @relation(fields: [course_id], references: [id])
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id String
 
   @@map("timers")
