@@ -5,6 +5,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../srevice/api";
+import { useState } from "react";
 
 const schema = z.object({
     email: z.string().email("email inválido").nonempty("o campo email é obrigatório"),
@@ -25,6 +26,7 @@ export function Login() {
         resolver: zodResolver(schema),
         mode: "onChange"
     })
+    const [viewPass, setViewPass] = useState(true)
     const navigate = useNavigate();
 
     async function login(data: FormData) {
@@ -76,12 +78,19 @@ export function Login() {
                     <label className="text-black font-medium mt-4 mb-1 sm:text-base text-sm">Senha</label>
                     <Input
                         name="password"
-                        type="password"
+                        type={viewPass ? "password" : "text"}
                         placeholder="••••••••"
                         register={register}
                         error={errors.password?.message}
                     />
-                    <button type="submit" className="h-10 w-full bg-blue-950 rounded-md text-white cursor-pointer hover:scale-105 transition-all mt-6 sm:text-base text-sm">
+                    <div className="mt-2 mb-3">
+                        <input
+                            type="checkbox"
+                            onClick={() => setViewPass(!viewPass)}
+                        />
+                        <label className="text-zinc-500 ml-2 sm:text-base text-sm">{viewPass ? "Mostrar" : "Ocultar"} senha</label>
+                    </div>
+                    <button type="submit" className="h-10 w-full bg-blue-950 rounded-md text-white cursor-pointer hover:scale-105 transition-all sm:text-base text-sm">
                         Entrar
                     </button>
                 </form>
